@@ -1,16 +1,13 @@
 <?php
 
-/**
- * 
- */
+
 class DependencyInjectionBuilder
 {
-
     protected $_container;
 
-    function __construct(ArrayAccess $container = null)
+    public function __construct(ArrayAccess $container = null)
     {
-        $this->_container = $container ? $container : array();
+        $this->_container = $container ? $container : [];
     }
 
     public function create($class, $input = [])
@@ -33,7 +30,7 @@ class DependencyInjectionBuilder
 
         return $metaClass->hasMethod('__construct') ?
             $metaClass->newInstanceArgs($this->_getDependencies([$class, '__construct'], $input)) :
-            new $class;
+            new $class();
     }
 
     protected function _getDependencies($controller, $input)
@@ -53,6 +50,7 @@ class DependencyInjectionBuilder
                 }
             }
         }
+
         return $dependencies;
     }
 }
